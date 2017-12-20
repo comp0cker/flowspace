@@ -1,6 +1,8 @@
 # flowspace
 Initilaly inspired from [this stackoverflow article.](https://stackoverflow.com/questions/31592190/multiple-new-browser-windows-from-batch-file)
 
+Opens up a set of windows with a preset indicated by the user. Presets indicate the size of each window, and the application or webpage opened. Javascript implementation to drag and drop presets are coming soon.
+
 An inherit flaw of Google Chrome prevents creation of new windows via the command line in Windows. When the following code is run:
 
 ```start chrome --new-window --window-position=0,0 --window-size=640,512 www.google.com
