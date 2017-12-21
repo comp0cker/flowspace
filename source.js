@@ -8,6 +8,89 @@ start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrom
 start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user7"--new-window --window-position=3200,0 --window-size=640,1080 "https://miworkspace.hipchat.com/chat"\r\n\
 exit'
 
+var tempWidth = [];
+var tempHeight = [];
+
+$( document ).ready(function() {
+    updateHeight();
+  tempWidth.push(window.screen.width);
+  tempHeight.push(window.screen.height);
+  
+  var width = window.screen.width / 10;
+  $(".resize-container").css("width", width + "px");
+  
+  interact('.resize-drag')
+  .draggable({
+    onmove: window.dragMoveListener,
+    restrict: {
+      restriction: 'parent',
+      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+    },
+  })
+  .resizable({
+    // resize from all edges and corners
+    edges: { left: true, right: true, bottom: true, top: true },
+
+    // keep the edges inside the parent
+    restrictEdges: {
+      outer: 'parent',
+      endOnly: true,
+    },
+
+    // minimum size
+    restrictSize: {
+      min: { width: 100, height: 50 },
+    },
+
+    inertia: true,
+  })
+  .on('resizemove', function (event) {
+    var target = event.target,
+        x = (parseFloat(target.getAttribute('data-x')) || 0),
+        y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+    // update the element's style
+    target.style.width  = event.rect.width + 'px';
+    target.style.height = event.rect.height + 'px';
+
+    // translate when resizing from top or left edges
+    x += event.deltaRect.left;
+    y += event.deltaRect.top;
+
+    target.style.webkitTransform = target.style.transform =
+        'translate(' + x + 'px,' + y + 'px)';
+
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+    target.textContent = Math.round(event.rect.width * 10) + '\u00D7' + Math.round(event.rect.height * 10);
+  });
+  
+});
+
+function updateHeight(){
+  $(".sizeInit").text("Your primary monitor is " + window.screen.width + "x" + window.screen.height);
+}
+
+function addMonitor(){
+  var sameMonitor = false;
+  for (var i = 0; i < tempWidth.length; i++)
+     if (window.screen.width == tempWidth[i] && window.screen.height == tempHeight[i])
+      sameMonitor = true;
+  
+  if (sameMonitor)
+    Materialize.toast("You didn't change monitors!", 4000);
+  else
+    {
+      tempWidth.push(window.screen.width);
+      tempHeight.push(window.screen.height);
+      $(".size").append("<h5>Monitor " + tempWidth.length + " is " + window.screen.width + "x" + window.screen.height + " </h5>");
+    }
+}
+
+function parseFile(){
+  
+}
+
 function generate() {
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -23,3 +106,4 @@ function generate() {
 
 // Start file download.
 download("hello.txt","This is the content of my file :)");
+
