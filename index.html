@@ -6,17 +6,58 @@
     <title>flowspace</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    
     <script src="source.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" href="styles.css">
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.3/lib/draggable.bundle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+    <script src="https://cdn.jsdelivr.net/npm/interactjs@1.3.0/dist/interact.min.js"></script>
 </head>
 <body class = "container">
-    <h5>Screen resolution</h5>
-    <p>Width <input id="width"></p>
-    <p>Height <input id="width"></p>
+  <div class = size>
+    <h4 class = "sizeInit"></h4>
+  </div>
+  <p>If you have more then one monitor, please drag this window to the new monitor.</p>
+  <a onclick="addMonitor()" class="waves-effect waves-light btn"><i class="material-icons left">add</i>add monitor</a>
+  
+  <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">web</i>
+          <input id="first_name" type="text" class="validate">
+          <label for="first_name">URL</label>
+        </div>
+        <div class="input-field col s3">
+          <input id="last_name" type="text" class="validate">
+          <label for="last_name">Monitor</label>
+        </div>
+    <div class="input-field col s3">
+          <input id="last_name" type="text" class="validate">
+          <label for="last_name">Last Name</label>
+        </div>
+  </div>
+  <div class="row">
+  <div class="input-field col s12">
+          <i class="material-icons prefix">account_circle</i>
+          <input id="icon_prefix" type="text" class="validate">
+          <label for="icon_prefix">Username</label>
+  </div>
+  </div>
     <a class="waves-effect waves-light btn" onclick="generate()">download</a>
-</body>
+  </div>
+  
+  <div class="resize-container">
+  <div class="resize-drag">
+     Resize from any edge or corner
+  </div>
+    <div class="resize-drag">
+     Resize from any edge or corner
+  </div>
+  </div>
+  
+  </body>
 </html>
