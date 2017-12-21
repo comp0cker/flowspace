@@ -67,10 +67,9 @@ $( document ).ready(function() {
 
     // minimum size
     restrictSize: {
-      min: { width: 100, height: 50 },
+      min: { width: 50, height: 50 },
     },
 
-    inertia: true,
   })
   .on('resizemove', function (event) {
     var target = event.target,
@@ -115,7 +114,7 @@ function addMonitor(){
       tempWidth.push(window.screen.width);
       tempHeight.push(window.screen.height);
       //$(".size").append("<h5>Monitor " + tempWidth.length + " is " + window.screen.width + "x" + window.screen.height + " </h5>");
-      $(".containers").append("<div class = 'form-group'><h5 style='display:inline'>Monitor " + tempWidth.length + "</h5><p>" + window.screen.width + "x" + window.screen.height + "</p><div class='resize-container' style='width:" + window.screen.width / scale + "px;height:" + window.screen.height / scale + "px'></div></div>")
+      $(".form-horizontal").append("<div class = 'form-group " + tempWidth.length + "'><h5 style='display:inline'>Monitor " + tempWidth.length + "</h5><p>" + window.screen.width + "x" + window.screen.height + "</p><div class='resize-container' style='width:" + window.screen.width / scale + "px;height:" + window.screen.height / scale + "px'><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div></div></div>")
       //$(".monitorSelect").append(new Option('Foo', 'foo', 'true', 'true'));
       $("#monitorSelect").append("<option value='" + tempWidth.length + "'>Monitor " + tempWidth.length + "</option>")
       $('#monitorSelect').material_select();
@@ -124,19 +123,11 @@ function addMonitor(){
 }
 
 function addWebsite(){
-  $(".resizeContainer").append('<div class="resize-drag">' + url + '</div>');
-  var original = $(".initialBox"),
-          // create a clone of the currentTarget element
-          clone = $(".initialBox").cloneNode(true);
+  if ($("#url").val())
+    $(".hide").first().html($("#url").val());
+  $(".hide").first().removeClass("hide");
+  // lol fix this only works for monitor one
 
-      // insert the clone to the page
-      // TODO: position the clone appropriately
-      $().appendChild(clone);
-
-      // start a drag interaction targeting the clone
-      interaction.start({ name: 'drag' },
-                        event.interactable,
-                        clone);
 }
 
 function parseFile(){
