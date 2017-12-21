@@ -11,13 +11,39 @@ exit'
 var tempWidth = [];
 var tempHeight = [];
 
+var scale = 5;
+
 $( document ).ready(function() {
     updateHeight();
   tempWidth.push(window.screen.width);
   tempHeight.push(window.screen.height);
   
-  var width = window.screen.width / 10;
+  var width = window.screen.width / scale;
+  var height = window.screen.height / scale;
   $(".resize-container").css("width", width + "px");
+  $(".resize-container").css("height", height + "px");
+  
+  
+  
+  // start of crazy interact.js stuff
+  function dragMoveListener (event) {
+    var target = event.target,
+        // keep the dragged position in the data-x/data-y attributes
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+    // translate the element
+    target.style.webkitTransform =
+    target.style.transform =
+      'translate(' + x + 'px, ' + y + 'px)';
+
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+  }
+
+  // this is used later in the resizing and gesture demos
+  window.dragMoveListener = dragMoveListener;
   
   interact('.resize-drag')
   .draggable({
@@ -62,13 +88,16 @@ $( document ).ready(function() {
 
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-    target.textContent = Math.round(event.rect.width * 10) + '\u00D7' + Math.round(event.rect.height * 10);
+    // please change this eventually...
+    //target.textContent = Math.round(event.rect.width * scale) + '\u00D7' + Math.round(event.rect.height * scale);
   });
   
 });
 
+
+
 function updateHeight(){
-  $(".sizeInit").text("Your primary monitor is " + window.screen.width + "x" + window.screen.height);
+  $(".initMonitor").text("Detected as " + window.screen.width + "x" + window.screen.height);
 }
 
 function addMonitor(){
@@ -83,7 +112,9 @@ function addMonitor(){
     {
       tempWidth.push(window.screen.width);
       tempHeight.push(window.screen.height);
-      $(".size").append("<h5>Monitor " + tempWidth.length + " is " + window.screen.width + "x" + window.screen.height + " </h5>");
+      //$(".size").append("<h5>Monitor " + tempWidth.length + " is " + window.screen.width + "x" + window.screen.height + " </h5>");
+      $(".containers").append("<h5 style='display:inline'>Monitor " + tempWidth.length + "</h5><p>" + window.screen.width + "x" + window.screen.height + "</p><div class='resize-container' style='width:" + window.screen.width / scale + "px;height:" + window.screen.height / scale + "px'></div>")
+      
     }
 }
 
