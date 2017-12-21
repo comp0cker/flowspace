@@ -19,9 +19,6 @@
     <script src="https://cdn.jsdelivr.net/npm/interactjs@1.3.0/dist/interact.min.js"></script>
 </head>
 <body class = "container">
-  <div class = size>
-    <h4 class = "sizeInit"></h4>
-  </div>
   <p>If you have more then one monitor, please drag this window to the new monitor.</p>
   <a onclick="addMonitor()" class="waves-effect waves-light btn"><i class="material-icons left">add</i>add monitor</a>
   
@@ -47,16 +44,26 @@
           <label for="icon_prefix">Username</label>
   </div>
   </div>
-    <a class="waves-effect waves-light btn" onclick="generate()">download</a>
-  </div>
   
-  <div class="resize-container">
-  <div class="resize-drag">
-     Resize from any edge or corner
+  <div class = "row">
+    <div class = "containers">
+    
+      <h5>Monitor 1</h5>
+      <p class="initMonitor"></p>
+      <div class="resize-container">
+        <div class="resize-drag">
+           Resize from any edge or corner
+        </div>
+        <div class="resize-drag">
+           Resize from any edge or corner
+        </div>
+      </div>
+    
+    </div>
   </div>
-    <div class="resize-drag">
-     Resize from any edge or corner
-  </div>
+    
+      </div>
+    <a class="waves-effect waves-light btn" onclick="generate()">download</a>
   </div>
   
   </body>
