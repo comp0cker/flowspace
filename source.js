@@ -13,7 +13,8 @@ var tempHeight = [];
 
 var scale = 5;
 
-$(function () {
+function init()
+{
     $(".gridster ul").gridster({
         widget_base_dimensions: [100, 100],
         widget_margins: [5, 5],
@@ -22,10 +23,17 @@ $(function () {
             enabled: true
         }
     }).data('gridster');
-});
+
+}
 
 
 $( document ).ready(function() {
+    $(".addScreen").on('click', function(){
+        var gridster = $(".gridster ul").gridster().data('gridster');
+        gridster.add_widget('<li data-row="1" data-col="1" data-sizex="2" data-sizey="2">0</li>');
+    });
+
+    init();
 
     $('#monitorSelect').material_select(); // required for monitor select
 
@@ -67,11 +75,6 @@ function addMonitor(){
     }
 }
 
-function addWebsite() {
-    var gridster = $(".gridster ul").gridster().data('gridster');
-    gridster.add_widget('<li class="new">The HTML of the widget...</li>', 2, 1);
-}
-
 function parseFile(){
   
 }
@@ -91,4 +94,3 @@ function generate() {
 
 // Start file download.
 download("hello.txt","This is the content of my file :)");
-
