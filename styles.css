@@ -1,19 +1,5 @@
-.resize-drag {
-  background-color: #29e;
-  color: white;
-  font-size: 20px;
-  font-family: sans-serif;
-  border-radius: 8px;
-  padding: 20px;
-
-  width: 120px;
-
-  /* This makes things *much* easier */
-  box-sizing: border-box;
-}
-
-.resize-container {
-  width: 240px;
-  height: 240px;
-  background-color:#D3D3D3;
+.gridster ul li
+{
+  background:blue;
+  list-style-type: none;
 }

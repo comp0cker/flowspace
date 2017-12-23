@@ -6,92 +6,37 @@ start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrom
 start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user5"--new-window --window-position=1920,0 --window-size=1280,540 "https://inbox.google.com"\r\n\
 start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user6"--new-window --window-position=2560,540 --window-size=640,540 "https://ccmipcc1al.ns.itd.umich.edu:8445/desktop/container/?locale=en_US"\r\n\
 start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user7"--new-window --window-position=3200,0 --window-size=640,1080 "https://miworkspace.hipchat.com/chat"\r\n\
-exit'
+exit';
 
 var tempWidth = [];
 var tempHeight = [];
 
 var scale = 5;
 
+$(function () {
+    $(".gridster ul").gridster({
+        widget_base_dimensions: [100, 100],
+        widget_margins: [5, 5],
+        helper: 'clone',
+        resize: {
+            enabled: true
+        }
+    }).data('gridster');
+});
+
+
 $( document ).ready(function() {
-  $('#monitorSelect').material_select();
-  
+
+    $('#monitorSelect').material_select(); // required for monitor select
+
     updateHeight();
-  tempWidth.push(window.screen.width);
-  tempHeight.push(window.screen.height);
+    tempWidth.push(window.screen.width);
+    tempHeight.push(window.screen.height);
   
-  var width = window.screen.width / scale;
-  var height = window.screen.height / scale;
-  $(".resize-container").css("width", width + "px");
-  $(".resize-container").css("height", height + "px");
-  
-  
-  
-  // start of crazy interact.js stuff
-  function dragMoveListener (event) {
-    var target = event.target,
-        // keep the dragged position in the data-x/data-y attributes
-        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-    // translate the element
-    target.style.webkitTransform =
-    target.style.transform =
-      'translate(' + x + 'px, ' + y + 'px)';
-
-    // update the posiion attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-  }
-
-  // this is used later in the resizing and gesture demos
-  window.dragMoveListener = dragMoveListener;
-  
-  interact('.resize-drag')
-  .draggable({
-    onmove: window.dragMoveListener,
-    restrict: {
-      restriction: 'parent',
-      elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-    },
-  })
-  .resizable({
-    // resize from all edges and corners
-    edges: { left: true, right: true, bottom: true, top: true },
-
-    // keep the edges inside the parent
-    restrictEdges: {
-      outer: 'parent',
-      endOnly: true,
-    },
-
-    // minimum size
-    restrictSize: {
-      min: { width: 50, height: 50 },
-    },
-
-  })
-  .on('resizemove', function (event) {
-    var target = event.target,
-        x = (parseFloat(target.getAttribute('data-x')) || 0),
-        y = (parseFloat(target.getAttribute('data-y')) || 0);
-
-    // update the element's style
-    target.style.width  = event.rect.width + 'px';
-    target.style.height = event.rect.height + 'px';
-
-    // translate when resizing from top or left edges
-    x += event.deltaRect.left;
-    y += event.deltaRect.top;
-
-    target.style.webkitTransform = target.style.transform =
-        'translate(' + x + 'px,' + y + 'px)';
-
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-    // please change this eventually...
-    //target.textContent = Math.round(event.rect.width * scale) + '\u00D7' + Math.round(event.rect.height * scale);
-  });
+    var width = window.screen.width / scale;
+    var height = window.screen.height / scale;
+    $(".resize-container").css("width", width + "px");
+    $(".resize-container").css("height", height + "px");
   
 });
 
@@ -122,12 +67,9 @@ function addMonitor(){
     }
 }
 
-function addWebsite(){
-  if ($("#url").val())
-    $(".hide").first().html($("#url").val());
-  $(".hide").first().removeClass("hide");
-  // lol fix this only works for monitor one
-
+function addWebsite() {
+    var gridster = $(".gridster ul").gridster().data('gridster');
+    gridster.add_widget('<li class="new">The HTML of the widget...</li>', 2, 1);
 }
 
 function parseFile(){
