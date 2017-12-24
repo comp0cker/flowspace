@@ -11,7 +11,14 @@ exit';
 var tempWidth = [];
 var tempHeight = [];
 
-var scale = 100;
+var scale = 30;
+
+var width = window.screen.width / scale;
+
+var gridWidth = 12;
+var gridHeight = 6;
+var gridMax = gridWidth * gridHeight;
+var gridOccupied = 0;
 
 $( document ).ready(function() {
 
@@ -19,42 +26,45 @@ $( document ).ready(function() {
 
     updateHeight();
 
-    tempWidth.push(window.screen.width);0
+    tempWidth.push(window.screen.width);
     tempHeight.push(window.screen.height);
-
-    var width = window.screen.width / scale;
-    var height = window.screen.height / scale;
-
-    $(".grids").width(width);
-    $(".grids").height(height);
 });
 
 var app = angular.module('mainApp', ['gridster']);
 
 app.controller('mainCtrl', ['$scope', function ($scope) {
+    $scope.gridWidth = gridWidth;
+    $scope.gridHeight = gridHeight; //?? help i don't want to redefine
+
+    $scope.windowWidth = window.screen.width;
+    $scope.windowHeight = window.screen.height;
+
+    $scope.gcd = function(size, total) {
+        var x = Math.abs(size);
+        var y = Math.abs(total);
+
+        while(y) {
+            var t = y;
+            y = x % y;
+            x = t;
+        }
+        return x;
+    };
 
     $scope.editEnabled=true;
 
-    $scope.standardItems = [];
-    $scope.names = [];
+    $scope.items = [];
 
     $scope.gridsterOpts = {
-        columns: 12, // the width of the grid, in columns
+        columns: gridWidth, // the width of the grid, in columns
         pushing: true, // whether to push other items out of the way on move or resize
-        floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
+        floating: false, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
         swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
-        width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
-        colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
+        colWidth: width, // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
         rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
         margins: [10, 10], // the pixel distance between each widget
-        outerMargin: true, // whether margins apply to outer edges of the grid
-        sparse: false, // "true" can increase performance of dragging and resizing for big grid (e.g. 20x50)
-        isMobile: false, // stacks the grid items if true
-        mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
-        mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-        minColumns: 1, // the minimum columns the grid must have
-        minRows: 1, // the minimum height of the grid, in rows
-        maxRows: 6,
+        outerMargin: false, // whether margins apply to outer edges of the grid
+        maxRows: gridHeight,
         defaultSizeX: 2, // the default width of a gridster item, if not specifed
         defaultSizeY: 1, // the default height of a gridster item, if not specified
         minSizeX: 1, // minimum column width of an item
@@ -76,18 +86,37 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         }
     };
     $scope.remove=function(index){
-        $scope.standardItems.splice(index, 1);
+        $scope.items.splice(index, 1);
+        gridOccupied -= $scope.items[index].sizeX * $scope.items[index].sizeY;
     };
     $scope.add=function(){
-        var temp = $scope.url;
+      var temp = $scope.url;
+      /*
+    }
+        var result = $.grep($scope.items, function (obj) {
+            return obj.name = $scope.url;
+        });
 
-        if ($scope.names.indexOf(temp) >= 0)
+        if (result.length == 1)
             Materialize.toast("You already added that URL silly!", 4000);
         else {
-            $scope.standardItems.push({sizeX: 1, sizeY: 1, position: [0, 0]});
-            $scope.names.push(temp);
-            //alert(temp);
-        }
+            */
+
+      var newGridOccupied = gridOccupied + 6 * 3;
+
+      if (newGridOccupied > gridMax)
+          Materialize.toast("Not enough room for a new window!", 4000);
+
+      else {
+          $scope.items.push({
+              sizeX: 6,
+              sizeY: 3,
+              name: temp,
+              position: [0, 0]
+          });
+
+          gridOccupied += 6 * 3;
+      }
     };
 
     $scope.disableEditing=function(){
@@ -101,18 +130,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         $scope.gridsterOpts.resizable.enabled=true;
         $scope.gridsterOpts.draggable.enabled=true;
     };
-
-    $scope.customItemMap = {
-        sizeX: 'item.size.x',
-        sizeY: 'item.size.y',
-        row: 'item.position[0]',
-        col: 'item.position[1]'
-    };
 }]);
-
-function uh(){
-  return "hi";
-}
 
 function updateHeight(){
   $(".initMonitor").text("Detected as " + window.screen.width + "x" + window.screen.height);

@@ -17,9 +17,3 @@ float:right;
   -ms-user-select: none;
   user-select: none;
 }
-
-.grids {
-  background: seagreen;
-  width: 400px;
-  height: 500px;
-}
