@@ -12,23 +12,9 @@ var tempWidth = [];
 var tempHeight = [];
 
 var scale = 10;
-
+var width, height;
 
 $( document ).ready(function() {
-
-    $(".addScreen").on('click', function(){
-        var gridster = $(".gridster ul").gridster({
-            widget_base_dimensions: [100, 100],
-            widget_margins: [5, 5],
-            helper: 'clone',
-            max_cols: 4,
-
-            resize: {
-                enabled: true
-            }
-        }).data('gridster');
-        gridster.add_widget('<li data-row="1" data-col="1" data-sizex="2" data-sizey="2">0</li>');
-    });
 
     $('#monitorSelect').material_select(); // required for monitor select
 
@@ -36,25 +22,97 @@ $( document ).ready(function() {
     tempWidth.push(window.screen.width);0
 
     tempHeight.push(window.screen.height);
-  
-    var width = window.screen.width / scale;
-    var height = window.screen.height / scale;
 
-    $(".gridster ul").gridster({
-        widget_base_dimensions: [width, height],
-        widget_margins: [5, 5],
-        helper: 'clone',
-        max_cols: 4,
-        max_rows: 4,
-
-        resize: {
-            enabled: true
-        }
-    }).data('gridster');
-
+    width = window.screen.width / scale;
+    height = window.screen.height / scale;
 });
 
+var app = angular.module('mainApp', ['gridster']);
 
+app.controller('mainCtrl', ['$scope', function ($scope) {
+    $scope.editEnabled=true;
+
+    $scope.standardItems = [];
+    $scope.names = [];
+
+    $scope.gridsterOpts = {
+        columns: 6, // the width of the grid, in columns
+        pushing: true, // whether to push other items out of the way on move or resize
+        floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
+        swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
+        width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
+        colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
+        rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
+        margins: [10, 10], // the pixel distance between each widget
+        outerMargin: true, // whether margins apply to outer edges of the grid
+        sparse: false, // "true" can increase performance of dragging and resizing for big grid (e.g. 20x50)
+        isMobile: false, // stacks the grid items if true
+        mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
+        mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
+        minColumns: 1, // the minimum columns the grid must have
+        minRows: 2, // the minimum height of the grid, in rows
+        maxRows: 100,
+        defaultSizeX: 2, // the default width of a gridster item, if not specifed
+        defaultSizeY: 1, // the default height of a gridster item, if not specified
+        minSizeX: 1, // minimum column width OF an item
+        maxSizeX: null, // maximum column width of an item
+        minSizeY: 1, // minumum row height of an item
+        maxSizeY: null, // maximum row height of an item
+        resizable: {
+            enabled: true,
+            handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
+            start: function(event, $element, widget) {}, // optional callback fired when resize is started,
+            resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
+            stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
+        },
+        draggable: {
+            enabled: true, // whether dragging items is supported
+            start: function(event, $element, widget) {}, // optional callback fired when drag is started,
+            drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
+            stop: function(event, $element, widget) {} // optional callback fired when item is finished dragging
+        }
+    };
+    $scope.remove=function(index){
+        $scope.standardItems.splice(index, 1);
+    };
+    $scope.add=function(){
+        var temp = $scope.url;
+
+        if ($scope.names.indexOf(temp) >= 0)
+            Materialize.toast("You already added that URL silly!", 4000);
+        else {
+            $scope.standardItems.push({size: {x: 1, y: 1}, position: [0, 0]});
+            $scope.names.push(temp);
+            //alert(temp);
+        }
+    };
+
+    $scope.disableEditing=function(){
+        $scope.editEnabled=false;
+        $scope.gridsterOpts.resizable.enabled=false;
+        $scope.gridsterOpts.draggable.enabled=false;
+    };
+
+    $scope.enableEditing=function(){
+        $scope.editEnabled=true;
+        $scope.gridsterOpts.resizable.enabled=true;
+        $scope.gridsterOpts.draggable.enabled=true;
+    };
+}]);
+
+$( document ).ready(function() {
+
+    $('#monitorSelect').material_select(); // required for monitor select
+
+    updateHeight();
+    tempWidth.push(window.screen.width);0
+
+    tempHeight.push(window.screen.height);
+});
+
+function uh(){
+  return "hi";
+}
 
 function updateHeight(){
   $(".initMonitor").text("Detected as " + window.screen.width + "x" + window.screen.height);

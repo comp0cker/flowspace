@@ -1,10 +1,23 @@
-.gridster ul
-{
-  background:lightblue;
+.widgetHeader{
+  width: 100%;
+  background: #ddd;
+  box-sizing:border-box;
+  padding: 10px;
+}
+.widgetHeader .remove a{
+  color:red;
+float:right;
+}
+.header{height:30px;}
+
+*.unselectable {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.gridster ul li
-{
-  background:blue;
-  list-style-type: none;
+.grids {
+  background: seagreen;
 }

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
     <script src="source.js"></script>
     <link rel="stylesheet" href="styles.css">
@@ -16,60 +17,65 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <script src="jquery.gridster.min.js" type="text/javascript" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="jquery.gridster.min.css">
+    <script src="angular-gridster.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="angular-gridster.min.css">
 
 </head>
 
-
-
 <body class = "container">
 
-  <p>If you have more then one monitor, please drag this window to the new monitor.</p>
-  <a onclick="addMonitor()" class="waves-effect waves-light btn"><i class="material-icons left">add</i>add monitor</a>
-  
+<div ng-app="mainApp" ng-controller="mainCtrl">
+
+    <p>If you have more then one monitor, please drag this window to the new monitor.</p>
+    <a style="color:white" onclick="addMonitor()" class="waves-effect waves-light btn"><i class="material-icons left">add</i>add monitor</a>
+
     <div class="row">
-  <div class="input-field col s12">
-          <i class="material-icons prefix">account_circle</i>
-          <input id="icon_prefix" type="text" class="validate">
-          <label for="icon_prefix">Username</label>
-  </div>
-  </div>
+        <div class="input-field col s12">
+            <i class="material-icons prefix">account_circle</i>
+            <input id="icon_prefix" type="text" class="validate">
+            <label for="icon_prefix">Username</label>
+        </div>
+    </div>
   
   <div class="row">
         <div class="input-field col s3">
-          <i class="material-icons prefix">web</i>
-          <input id="url" type="text" class="validate">
-          <label for="url">URL</label>
+            <i class="material-icons prefix">web</i>
+            <input id="url" ng-model="url" type="text" class="validate">
+            <label for="url">URL</label>
         </div>
-    
+
         <div class="input-field col s3">
-          <i class="material-icons prefix">computer</i>
-          <select id = "monitorSelect">
-            <option value="1">Monitor 1</option>
-        </select>
-        <label>Monitor</label>
+            <i class="material-icons prefix">computer</i>
+            <select id = "monitorselect">
+                <option value="1">Monitor 1</option>
+            </select>
+            <label>Monitor</label>
         </div>
   </div>
-  
-  <a class="addScreen waves-effect waves-light btn"><i class="material-icons left">add</i>add website</a>
+
+  <span><a href ng-click="add()" style="color:white" class="addScreen waves-effect waves-light btn"><i class="material-icons left">add</i>add website</a></span>
 
     <div class = "form-horizontal">
 
       <div class = "1 form-group">
         <h5>Monitor 1</h5>
         <p class="initMonitor"></p>
-          <div class="gridster">
-              <ul>
-                  <li data-row="4" data-col="4" data-sizex="1" data-sizey="3">0</li>
-              </ul>
-          </div>
+
+              <span ng-show="editEnabled"><a href ng-click="disableEditing() ">Disable Editing</a></span><span ng-hide="editEnabled"><a href ng-click="enableEditing() ">Enable Editing</a></span></div>
+              <div gridster="gridsterOpts" class="unselectable">
+                  <ul>
+                      <li style="border: solid 1px;" class="widget" gridster-item="item" ng-repeat="name in names">
+                          <div class="widgetHeader ">{{NAME}}<span class="remove"><a href ng-show="editEnabled" ng-click="remove($index)">X</a></span></div>
+                      </li>
+                  </ul>
+              </div>
+
       </div>
   </div>
 
       </div>
-    <a class="waves-effect waves-light btn" onclick="generate()">download</a>
+    <a style="color:white" class="waves-effect waves-light btn" onclick="generate()">download</a>
+
   </div>
-  
   </body>
 </html>
