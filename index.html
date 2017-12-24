@@ -64,15 +64,15 @@
         <h5>Monitor 1</h5>
         <p class="initMonitor"></p>
 
-              <span ng-show="editEnabled"><a href ng-click="disableEditing() ">Disable Editing</a></span><span ng-hide="editEnabled"><a href ng-click="enableEditing() ">Enable Editing</a></span></div>
+              <span ng-show="editEnabled"><a href ng-click="disableEditing() ">Disable Editing</a></span><span ng-hide="editEnabled"><a href ng-click="enableEditing() ">Enable Editing</a></span>
               <div gridster="gridsterOpts" class="unselectable">
                   <ul>
                       <li style="border: solid 1px;" class="widget" gridster-item="item" ng-repeat="name in names">
                           <div class="widgetHeader ">{{name}}<span class="remove"><a href ng-show="editEnabled" ng-click="remove($index)">X</a></span></div>
+                          <!--{{standardItems[$index]}}-->
                       </li>
                   </ul>
               </div>
-
       </div>
   </div>
 

@@ -11,32 +11,35 @@ exit';
 var tempWidth = [];
 var tempHeight = [];
 
-var scale = 10;
-var width, height;
+var scale = 100;
 
 $( document ).ready(function() {
 
     $('#monitorSelect').material_select(); // required for monitor select
 
     updateHeight();
-    tempWidth.push(window.screen.width);0
 
+    tempWidth.push(window.screen.width);0
     tempHeight.push(window.screen.height);
 
-    width = window.screen.width / scale;
-    height = window.screen.height / scale;
+    var width = window.screen.width / scale;
+    var height = window.screen.height / scale;
+
+    $(".grids").width(width);
+    $(".grids").height(height);
 });
 
 var app = angular.module('mainApp', ['gridster']);
 
 app.controller('mainCtrl', ['$scope', function ($scope) {
+
     $scope.editEnabled=true;
 
     $scope.standardItems = [];
     $scope.names = [];
 
     $scope.gridsterOpts = {
-        columns: 6, // the width of the grid, in columns
+        columns: 12, // the width of the grid, in columns
         pushing: true, // whether to push other items out of the way on move or resize
         floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
         swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
@@ -50,8 +53,8 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
         mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
         minColumns: 1, // the minimum columns the grid must have
-        minRows: 2, // the minimum height of the grid, in rows
-        maxRows: 100,
+        minRows: 1, // the minimum height of the grid, in rows
+        maxRows: 6,
         defaultSizeX: 2, // the default width of a gridster item, if not specifed
         defaultSizeY: 1, // the default height of a gridster item, if not specified
         minSizeX: 1, // minimum column width of an item
@@ -81,7 +84,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         if ($scope.names.indexOf(temp) >= 0)
             Materialize.toast("You already added that URL silly!", 4000);
         else {
-            $scope.standardItems.push({size: {x: 1, y: 1}, position: [0, 0]});
+            $scope.standardItems.push({sizeX: 1, sizeY: 1, position: [0, 0]});
             $scope.names.push(temp);
             //alert(temp);
         }
@@ -98,17 +101,14 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         $scope.gridsterOpts.resizable.enabled=true;
         $scope.gridsterOpts.draggable.enabled=true;
     };
+
+    $scope.customItemMap = {
+        sizeX: 'item.size.x',
+        sizeY: 'item.size.y',
+        row: 'item.position[0]',
+        col: 'item.position[1]'
+    };
 }]);
-
-$( document ).ready(function() {
-
-    $('#monitorSelect').material_select(); // required for monitor select
-
-    updateHeight();
-    tempWidth.push(window.screen.width);0
-
-    tempHeight.push(window.screen.height);
-});
 
 function uh(){
   return "hi";
