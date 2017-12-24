@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <script src="jquery.gridster.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="jquery.gridster.min.css">
+
     <script src="angular-gridster.min.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="angular-gridster.min.css">
 
@@ -65,7 +68,7 @@
               <div gridster="gridsterOpts" class="unselectable">
                   <ul>
                       <li style="border: solid 1px;" class="widget" gridster-item="item" ng-repeat="name in names">
-                          <div class="widgetHeader ">{{NAME}}<span class="remove"><a href ng-show="editEnabled" ng-click="remove($index)">X</a></span></div>
+                          <div class="widgetHeader ">{{name}}<span class="remove"><a href ng-show="editEnabled" ng-click="remove($index)">X</a></span></div>
                       </li>
                   </ul>
               </div>
