@@ -6,9 +6,9 @@
     <title>flowspace</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    
+
     <script src="source.js"></script>
     <link rel="stylesheet" href="styles.css">
   
@@ -21,13 +21,9 @@
 
 </head>
 
-<body class = "container">
 
-<div class="gridster">
-    <ul>
-        <li data-row="1" data-col="1" data-sizex="2" data-sizey="2">0</li>
-    </ul>
-</div>
+
+<body class = "container">
 
   <p>If you have more then one monitor, please drag this window to the new monitor.</p>
   <a onclick="addMonitor()" class="waves-effect waves-light btn"><i class="material-icons left">add</i>add monitor</a>
@@ -63,9 +59,11 @@
       <div class = "1 form-group">
         <h5>Monitor 1</h5>
         <p class="initMonitor"></p>
-        <div class="resize-container">
-
-        </div>
+          <div class="gridster">
+              <ul>
+                  <li data-row="4" data-col="4" data-sizex="1" data-sizey="3">0</li>
+              </ul>
+          </div>
       </div>
   </div>
 

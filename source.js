@@ -11,41 +11,47 @@ exit';
 var tempWidth = [];
 var tempHeight = [];
 
-var scale = 5;
+var scale = 10;
 
-function init()
-{
+
+$( document ).ready(function() {
+
+    $(".addScreen").on('click', function(){
+        var gridster = $(".gridster ul").gridster({
+            widget_base_dimensions: [100, 100],
+            widget_margins: [5, 5],
+            helper: 'clone',
+            max_cols: 4,
+
+            resize: {
+                enabled: true
+            }
+        }).data('gridster');
+        gridster.add_widget('<li data-row="1" data-col="1" data-sizex="2" data-sizey="2">0</li>');
+    });
+
+    $('#monitorSelect').material_select(); // required for monitor select
+
+    updateHeight();
+    tempWidth.push(window.screen.width);0
+
+    tempHeight.push(window.screen.height);
+  
+    var width = window.screen.width / scale;
+    var height = window.screen.height / scale;
+
     $(".gridster ul").gridster({
-        widget_base_dimensions: [100, 100],
+        widget_base_dimensions: [width, height],
         widget_margins: [5, 5],
         helper: 'clone',
+        max_cols: 4,
+        max_rows: 4,
+
         resize: {
             enabled: true
         }
     }).data('gridster');
 
-}
-
-
-$( document ).ready(function() {
-    $(".addScreen").on('click', function(){
-        var gridster = $(".gridster ul").gridster().data('gridster');
-        gridster.add_widget('<li data-row="1" data-col="1" data-sizex="2" data-sizey="2">0</li>');
-    });
-
-    init();
-
-    $('#monitorSelect').material_select(); // required for monitor select
-
-    updateHeight();
-    tempWidth.push(window.screen.width);
-    tempHeight.push(window.screen.height);
-  
-    var width = window.screen.width / scale;
-    var height = window.screen.height / scale;
-    $(".resize-container").css("width", width + "px");
-    $(".resize-container").css("height", height + "px");
-  
 });
 
 
