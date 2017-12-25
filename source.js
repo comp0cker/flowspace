@@ -20,19 +20,19 @@ var gridHeight = 6;
 var gridMax = gridWidth * gridHeight;
 var gridOccupied = 0;
 
-$( document ).ready(function() {
-
-    $('#monitorSelect').material_select(); // required for monitor select
-
-    updateHeight();
-
-    tempWidth.push(window.screen.width);
-    tempHeight.push(window.screen.height);
-});
-
 var app = angular.module('mainApp', ['gridster']);
 
 app.controller('mainCtrl', ['$scope', function ($scope) {
+    $( document ).ready(function() {
+
+        $('#monitorSelect').material_select(); // required for monitor select
+
+        updateHeight();
+
+        tempWidth.push(window.screen.width);
+        tempHeight.push(window.screen.height);
+    });
+
     $scope.gridWidth = gridWidth;
     $scope.gridHeight = gridHeight; //?? help i don't want to redefine
 
@@ -107,12 +107,14 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
       if (newGridOccupied > gridMax)
           Materialize.toast("Not enough room for a new window!", 4000);
 
+      else if ($("#url").val().length == 0) // oops angular doesn't work
+          Materialize.toast("You didn't enter a URL!", 4000);
+
       else {
           $scope.items.push({
               sizeX: 6,
               sizeY: 3,
               name: temp,
-              position: [0, 0]
           });
 
           gridOccupied += 6 * 3;
@@ -130,7 +132,27 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         $scope.gridsterOpts.resizable.enabled=true;
         $scope.gridsterOpts.draggable.enabled=true;
     };
-}]);
+
+    $scope.generate = function() {
+
+        //alert($scope.batch());
+
+        if ($("#username").val().length == 0)
+            Materialize.toast("Please add a username!", 4000);
+        else {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent($scope.batch()));
+            element.setAttribute('download', 'flowspace.bat');
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+    };
+
 
 function updateHeight(){
   $(".initMonitor").text("Detected as " + window.screen.width + "x" + window.screen.height);
@@ -158,21 +180,21 @@ function addMonitor(){
 }
 
 function parseFile(){
-  
+
 }
 
-function generate() {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', 'flowspace.bat');
+$scope.batch = function(){
+    var full_batch = "";
+    full_batch += '@echo off\r\n\ ';
 
-  element.style.display = 'none';
-  document.body.appendChild(element);
+    for (var i = 0; i < $scope.items.length; i++) {
+        full_batch += 'start chrome --user-data-dir=';
+        full_batch += '"C:\\Users\\' + $("#username").val() + '\\AppData\\Local\\Google\\Chrome\\User Data\\user' + i + '"--new-window ';
+        full_batch += '--window-position=' + (window.screen.width * $scope.items[i].col / gridWidth) + ',' + (window.screen.height * $scope.items[i].row / gridHeight) + " ";
+        full_batch += '--window-size=' + (window.screen.width * $scope.items[i].sizeX / gridWidth) + ',' + (window.screen.height * $scope.items[i].sizeY / gridHeight) + " ";
+        full_batch += '"' + $scope.items[i].name + '" \r\n';
+    }
 
-  element.click();
-
-  document.body.removeChild(element);
-}
-
-// Start file download.
-download("hello.txt","This is the content of my file :)");
+    return full_batch;
+};
+}]);
