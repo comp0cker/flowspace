@@ -1,13 +1,3 @@
-var text = '@echo off\r\n\
-start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user1"--new-window --window-position=0,0 --window-size=960,1200 "https://servicelink.it.umich.edu"\r\n\
-start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user2"--new-window --window-position=960,0 --window-size=480,1200 "https://mcommunity.umich.edu/"\r\n\
-start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user3"--new-window --window-position=1440,0 --window-size=480,1200 "https://docs.google.com/document/d/1m5aAwjPyq28iO2Hqrb3BNNo_ofYoLNcv5A1BcCWbZN8/edit"\r\n\
-start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user4"--new-window --window-position=1920,540 --window-size=640,540 "https://webuniq.www.umich.edu/index.php"\r\n\
-start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user5"--new-window --window-position=1920,0 --window-size=1280,540 "https://inbox.google.com"\r\n\
-start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user6"--new-window --window-position=2560,540 --window-size=640,540 "https://ccmipcc1al.ns.itd.umich.edu:8445/desktop/container/?locale=en_US"\r\n\
-start chrome --user-data-dir="C:\\Users\\jlgrimes\\AppData\\Local\\Google\\Chrome\\User Data\\user7"--new-window --window-position=3200,0 --window-size=640,1080 "https://miworkspace.hipchat.com/chat"\r\n\
-exit';
-
 var tempWidth = [];
 var tempHeight = [];
 
@@ -31,6 +21,15 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
 
         tempWidth.push(window.screen.width);
         tempHeight.push(window.screen.height);
+
+        /*
+        $('#url').keypress(function(key) { // not reccomended.. yikes...
+            if (key.which == 13){
+                $scope.add();
+                $('#url').blur();
+            }
+        })
+        */
     });
 
     $scope.gridWidth = gridWidth;
@@ -111,11 +110,23 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
           Materialize.toast("You didn't enter a URL!", 4000);
 
       else {
-          $scope.items.push({
-              sizeX: 6,
-              sizeY: 3,
-              name: temp,
-          });
+          if ($("#url").val().indexOf(".") > 0) {
+              $scope.items.push({
+                  sizeX: 6,
+                  sizeY: 3,
+                  name: temp
+              });
+          }
+          else {
+              temp += ".com";
+              Materialize.toast($("#url").val() + " isn't a valid URL, added " + $("#url").val() + ".com instead!", 4000);
+
+              $scope.items.push({
+                  sizeX: 6,
+                  sizeY: 3,
+                  name: temp
+              });
+          }
 
           gridOccupied += 6 * 3;
       }
@@ -137,20 +148,28 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
 
         //alert($scope.batch());
 
-        if ($("#username").val().length == 0)
-            Materialize.toast("Please add a username!", 4000);
-        else {
-            var element = document.createElement('a');
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent($scope.batch()));
-            element.setAttribute('download', 'flowspace.bat');
+        if ($("#username").val().length == 0 || $scope.items.length == 0) {
 
-            element.style.display = 'none';
-            document.body.appendChild(element);
+            if ($("#username").val().length == 0)
+                Materialize.toast("Please add a username!", 4000);
 
-            element.click();
+            if($scope.items.length == 0)
+                Materialize.toast("Please add a link!", 4000);
 
-            document.body.removeChild(element);
+            return;
         }
+
+
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent($scope.batch()));
+        element.setAttribute('download', 'flowspace.bat');
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
     };
 
 
@@ -158,7 +177,7 @@ function updateHeight(){
   $(".initMonitor").text("Detected as " + window.screen.width + "x" + window.screen.height);
 }
 
-function addMonitor(){
+$scope.addMonitor = function(){
   var sameMonitor = false;
   for (var i = 0; i < tempWidth.length; i++)
      if (window.screen.width == tempWidth[i] && window.screen.height == tempHeight[i])
@@ -177,10 +196,6 @@ function addMonitor(){
       $('#monitorSelect').material_select();
       Materialize.toast("Monitor added!", 4000);
     }
-}
-
-function parseFile(){
-
 }
 
 $scope.batch = function(){

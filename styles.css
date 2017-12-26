@@ -17,3 +17,13 @@ float:right;
   -ms-user-select: none;
   user-select: none;
 }
+
+.boxhead a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.nav-wrapper {
+  margin-left: 10px;
+  margin-right: 10px;
+}

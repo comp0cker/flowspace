@@ -25,24 +25,28 @@
 
 </head>
 
+<nav>
+    <div class="nav-wrapper">
+        <a class="brand-logo">flowspace</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li class="boxhead"><a href="http://github.com/comp0cker/flowspace" target="_blank"><i class="material-icons left">code</i>View Source</a></li>
+        </ul>
+    </div>
+</nav>
+
 <body class = "container" ng-app="mainApp" ng-controller="mainCtrl">
 
+<div class="card-panel">
     <p>If you have more then one monitor, please drag this window to the new monitor.</p>
     <a style="color:white" onclick="addMonitor()" class="waves-effect waves-light btn"><i class="material-icons left">add</i>add monitor</a>
+</div>
 
-    <div class="row">
-        <div class="input-field col s12">
-            <i class="material-icons prefix">account_circle</i>
-            <input id="username" type="text" class="validate">
-            <label for="username">Username</label>
-        </div>
-    </div>
-  
+<div class="card-panel">
   <div class="row">
         <div class="input-field col s3">
             <i class="material-icons prefix">web</i>
-            <input id="url" ng-model="url" type="text" class="validate">
-            <label for="url">URL</label>
+            <input id="url" ng-model="url" type="text" class="validate" required>
+            <label for="url" data-error="Please insert at least one link.">URL</label>
         </div>
 
         <div class="input-field col s3">
@@ -55,7 +59,9 @@
   </div>
 
   <span><a href ng-click="add()" style="color:white" class="addScreen waves-effect waves-light btn"><i class="material-icons left">add</i>add website</a></span>
+</div>
 
+<div class="card-panel">
     <div class = "form-horizontal">
 
       <div class = "1 form-group">
@@ -81,9 +87,18 @@
               </div>
       </div>
   </div>
+</div>
 
-      </div>
+<div class="card-panel">
+    <div class="row">
+        <div class="input-field col s12">
+            <i class="material-icons prefix">account_circle</i>
+            <input id="username" type="text" class="validate" required>
+            <label id="usernameLabel" data-error="Please enter a username.">Username</label>
+        </div>
+    </div>
+
     <a style="color:white" class="waves-effect waves-light btn" ng-click="generate()">download</a>
-
-  </body>
+</div>
+</body>
 </html>
