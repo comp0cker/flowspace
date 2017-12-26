@@ -36,29 +36,37 @@
 
 <body class = "container" ng-app="mainApp" ng-controller="mainCtrl">
 
-<div class="card-panel">
-    <p>If you have more then one monitor, please drag this window to the new monitor.</p>
-    <a style="color:white" onclick="addMonitor()" class="waves-effect waves-light btn"><i class="material-icons left">add</i>add monitor</a>
-</div>
+<div class ="row">
+    <div class="col">
+        <div class="card-panel">
+          <div class="row">
+                <div class="input-field col s3">
+                    <i class="material-icons prefix">web</i>
+                    <input id="url" ng-model="url" type="text" class="validate" required>
+                    <label for="url" data-error="Please insert at least one link.">URL</label>
+                </div>
 
-<div class="card-panel">
-  <div class="row">
-        <div class="input-field col s3">
-            <i class="material-icons prefix">web</i>
-            <input id="url" ng-model="url" type="text" class="validate" required>
-            <label for="url" data-error="Please insert at least one link.">URL</label>
+                <div class="input-field col s3">
+                    <i class="material-icons prefix">computer</i>
+                    <select id = "monitorselect">
+                        <option value="1">Monitor 1</option>
+                    </select>
+                    <label>Monitor</label>
+                </div>
+          </div>
+
+          <span><a href ng-click="add()" style="color:white" class="addScreen waves-effect waves-light btn"><i class="material-icons left">add</i>add website</a></span>
         </div>
+    </div>
 
-        <div class="input-field col s3">
-            <i class="material-icons prefix">computer</i>
-            <select id = "monitorselect">
-                <option value="1">Monitor 1</option>
-            </select>
-            <label>Monitor</label>
+    <div class="col">
+        <div class="card-panel">
+            <h5 style="margin-top:6px">Configure multiple monitors</h5>
+            <p>If you have more then one monitor, please drag this window to the new monitor.</p>
+            <a style="color:white" ng-click="addMonitor()" class="waves-effect waves-light btn"><i class="material-icons left">add</i>add monitor</a>
         </div>
-  </div>
+    </div>
 
-  <span><a href ng-click="add()" style="color:white" class="addScreen waves-effect waves-light btn"><i class="material-icons left">add</i>add website</a></span>
 </div>
 
 <div class="card-panel">
@@ -67,11 +75,12 @@
       <div class = "1 form-group">
         <h5>Monitor 1</h5>
         <p class="initMonitor"></p>
-
+              <!--
               <span ng-show="editEnabled"><a href ng-click="disableEditing() ">Disable Editing</a></span><span ng-hide="editEnabled"><a href ng-click="enableEditing() ">Enable Editing</a></span>
+              -->
               <div gridster="gridsterOpts" class="unselectable">
                   <ul>
-                      <li style="border: solid 1px;" class="widget" gridster-item="item" ng-repeat="item in items">
+                      <li class="widget" gridster-item="item" ng-repeat="item in items">
                           <div class="widgetHeader ">{{item.name}}
                               <span class="remove">
                                   <a href ng-show="editEnabled" ng-click="remove($index)">X
@@ -99,6 +108,11 @@
     </div>
 
     <a style="color:white" class="waves-effect waves-light btn" ng-click="generate()">download</a>
+</div>
+
+<div class="chip">
+    <img src="profile.png" alt="Contact Person">
+    Made by Jared Grimes
 </div>
 </body>
 </html>
