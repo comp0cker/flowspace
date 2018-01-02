@@ -37,6 +37,8 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
 
     $scope.windowWidth = window.screen.width;
     $scope.windowHeight = window.screen.height;
+    
+    $scope.monitorNumber = 1;
 
     $scope.gcd = function(size, total) {
         var x = Math.abs(size);
@@ -189,6 +191,10 @@ $scope.addMonitor = function(){
     {
       tempWidth.push(window.screen.width);
       tempHeight.push(window.screen.height);
+      $scope.monitor
+        
+      $(".initMonitor").clone().appendTo( 
+        
       //$(".size").append("<h5>Monitor " + tempWidth.length + " is " + window.screen.width + "x" + window.screen.height + " </h5>");
       $(".form-horizontal").append("<div class = 'form-group " + tempWidth.length + "'><h5 style='display:inline'>Monitor " + tempWidth.length + "</h5><p>" + window.screen.width + "x" + window.screen.height + "</p><div class='resize-container' style='width:" + window.screen.width / scale + "px;height:" + window.screen.height / scale + "px'><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div><div class='resize-drag hide'>google.com</div></div></div>")
       //$(".monitorSelect").append(new Option('Foo', 'foo', 'true', 'true'));
